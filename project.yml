@@ -1,7 +1,7 @@
 name: CopyPathHelper
 options:
   deploymentTarget:
-    macOS: "13.0"
+    macOS: "12.0"
   bundleIdPrefix: com.ojhurst
 
 settings:
@@ -9,6 +9,8 @@ settings:
     CODE_SIGN_IDENTITY: "-"
     CODE_SIGN_STYLE: Manual
     DEVELOPMENT_TEAM: ""
+    ARCHS: "arm64 x86_64"
+    ONLY_ACTIVE_ARCH: NO
 
 targets:
   CopyPathHelper:
