@@ -1,0 +1,51 @@
+name: CopyPathHelper
+options:
+  deploymentTarget:
+    macOS: "13.0"
+  bundleIdPrefix: com.ojhurst
+
+settings:
+  base:
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  CopyPathHelper:
+    type: application
+    platform: macOS
+    sources:
+      - CopyPathHelper
+    info:
+      path: CopyPathHelper/Info.plist
+      properties:
+        LSUIElement: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ojhurst.CopyPathHelper
+        INFOPLIST_FILE: CopyPathHelper/Info.plist
+        CODE_SIGN_ENTITLEMENTS: CopyPathHelper/CopyPathHelper.entitlements
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
+    dependencies:
+      - target: CopyPathExtension
+
+  CopyPathExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - CopyPathExtension
+    info:
+      path: CopyPathExtension/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.FinderSync
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).FinderSync
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ojhurst.CopyPathHelper.CopyPathExtension
+        INFOPLIST_FILE: CopyPathExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: CopyPathExtension/CopyPathExtension.entitlements
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks"
+    frameworks:
+      - sdk: FinderSync.framework
