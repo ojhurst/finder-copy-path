@@ -6,6 +6,10 @@ class FinderSync: FIFinderSync {
     override init() {
         super.init()
         // Watch all mounted volumes so the menu item appears everywhere.
+        // Cloud FileProvider mounts (Google Drive, iCloud Drive, Dropbox,
+        // OneDrive) are reserved for their own provider's FinderSync
+        // extension by macOS design; use macOS's built-in Option+Command+C
+        // "Copy as Pathname" shortcut inside those folders.
         let volumes = FileManager.default.mountedVolumeURLs(
             includingResourceValuesForKeys: nil,
             options: [.skipHiddenVolumes]

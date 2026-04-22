@@ -14,6 +14,15 @@ macOS already has this hidden behind holding Option while the menu is open. Nobo
 
 If multiple files are selected, all paths are copied, one per line.
 
+### Cloud folders (Google Drive, iCloud Drive, Dropbox, OneDrive)
+
+The right-click item intentionally does not appear inside cloud FileProvider mounts — Apple reserves those folders for the provider's own FinderSync extension. Inside a cloud folder, use macOS's built-in shortcut instead:
+
+- Select a file
+- Press **Option + Command + C**
+
+Same result. This is a platform limitation, not a bug.
+
 ## Install
 
 ### From source (requires Xcode)
