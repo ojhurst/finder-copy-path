@@ -6,6 +6,8 @@ macOS already has this hidden behind holding Option while the menu is open. Nobo
 
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
+![Copy Path in the Finder right-click menu](assets/copy-path-menu.png)
+
 ## How it works
 
 1. **Right-click** any file or folder in Finder
