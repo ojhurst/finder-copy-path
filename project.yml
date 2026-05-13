@@ -24,6 +24,7 @@ targets:
       path: CopyPathHelper/Info.plist
       properties:
         LSUIElement: true
+        CFBundleIconFile: AppIcon
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ojhurst.CopyPathHelper
