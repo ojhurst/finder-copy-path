@@ -6,11 +6,13 @@ options:
 
 settings:
   base:
-    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_IDENTITY: "Developer ID Application"
     CODE_SIGN_STYLE: Manual
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "WG8568VB25"
     ARCHS: "arm64 x86_64"
     ONLY_ACTIVE_ARCH: NO
+    ENABLE_HARDENED_RUNTIME: YES
+    OTHER_CODE_SIGN_FLAGS: "--timestamp"
 
 targets:
   CopyPathHelper:
