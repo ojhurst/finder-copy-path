@@ -29,6 +29,12 @@ macOS Finder extension that adds an always-visible "Copy Path" item to the right
 6. Test by right-clicking a file in Finder
 
 ## Repo-Specific Conventions
-- The extension is **ad-hoc signed** (`CODE_SIGN_IDENTITY: "-"`) — fine for personal install, would need a real Developer ID for distribution
+- Signed with **Developer ID Application: Oliver Hurst (WG8568VB25)** for distribution. The signing identity name and team ID are pinned in `project.yml`.
+- The Developer ID cert + matching private key live in the **MBP login keychain only**. Builds that need to sign must run on the MBP (or any machine where the private key has been imported). The Studio can build ad-hoc for dev iteration but cannot produce a notarizable artifact.
+- For distribution builds, the artifact must be notarized by Apple. Notary creds are stored as `APPLE_NOTARY_*` in secrets.json. Use `xcrun notarytool submit` on the signed `.dmg` and then `xcrun stapler staple` before uploading to GitHub Releases.
 - Sandbox entitlements grant absolute-path read-write so the extension can see paths anywhere on disk
 - Architecture mirrors [finder-move](https://github.com/ojhurst/finder-move). Keep them in sync if patterns change.
+
+
+## No time estimates, no stamina commentary
+Do not estimate how long something will take. Do not comment on James's energy, time of day, or how long the session has run. Do not suggest pausing, saving for tomorrow, or coming back fresh. James decides when he is done. Just do the next thing.
