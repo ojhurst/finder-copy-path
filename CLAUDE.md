@@ -32,7 +32,7 @@ macOS Finder extension that adds an always-visible "Copy Path" item to the right
 - Signed with **Developer ID Application: Oliver Hurst (WG8568VB25)** for distribution. The signing identity name and team ID are pinned in `project.yml`.
 - The Developer ID cert + matching private key live in the **MBP login keychain only**. Builds that need to sign must run on the MBP (or any machine where the private key has been imported). The Studio can build ad-hoc for dev iteration but cannot produce a notarizable artifact.
 - For distribution builds, run `./create-dmg.sh` on the MBP. It builds Release, renames the bundle to `CopyPath.app`, re-signs, packages a styled DMG with the existing `dmg-resources/background.png`, signs the DMG, submits to `xcrun notarytool`, and staples the ticket. Output: `dist/CopyPath.dmg` (filename matches the website's `releases/latest/download/CopyPath.dmg` URL).
-- Notary creds (`APPLE_NOTARY_APPLE_ID`, `APPLE_NOTARY_TEAM_ID`, `APPLE_NOTARY_PASSWORD`) must be in the shell environment before running — pull from `secrets.json` via `secrets_cli.py env`.
+- Notary creds (`APPLE_DEVELOPER_EMAIL`, `APPLE_TEAM_ID`, `APPLE_NOTARY_PASSWORD`) must be in the shell environment before running — pull from `secrets.json` via `secrets_cli.py env`.
 - One-time setup on MBP: `brew install create-dmg xcodegen`.
 - Sandbox entitlements grant absolute-path read-write so the extension can see paths anywhere on disk
 - Architecture mirrors [finder-move](https://github.com/ojhurst/finder-move). Keep them in sync if patterns change.

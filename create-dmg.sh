@@ -23,8 +23,8 @@ security find-identity -v -p codesigning | grep -q "$SIGNING_IDENTITY" || {
     echo "Developer ID signing identity not in keychain. Run this on the MBP."
     exit 1
 }
-: "${APPLE_NOTARY_APPLE_ID:?APPLE_NOTARY_APPLE_ID must be set (see secrets.json)}"
-: "${APPLE_NOTARY_TEAM_ID:?APPLE_NOTARY_TEAM_ID must be set (see secrets.json)}"
+: "${APPLE_DEVELOPER_EMAIL:?APPLE_DEVELOPER_EMAIL must be set (see secrets.json)}"
+: "${APPLE_TEAM_ID:?APPLE_TEAM_ID must be set (see secrets.json)}"
 : "${APPLE_NOTARY_PASSWORD:?APPLE_NOTARY_PASSWORD must be set (see secrets.json)}"
 
 # --- 1. Build release -----------------------------------------------------
@@ -76,8 +76,8 @@ create-dmg \
 # --- 5. Notarize ----------------------------------------------------------
 echo ">>> Submitting to Apple notary service"
 xcrun notarytool submit "$DMG_OUT" \
-    --apple-id "$APPLE_NOTARY_APPLE_ID" \
-    --team-id "$APPLE_NOTARY_TEAM_ID" \
+    --apple-id "$APPLE_DEVELOPER_EMAIL" \
+    --team-id "$APPLE_TEAM_ID" \
     --password "$APPLE_NOTARY_PASSWORD" \
     --wait
 
