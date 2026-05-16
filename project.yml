@@ -23,7 +23,7 @@ targets:
     info:
       path: CopyPathHelper/Info.plist
       properties:
-        LSUIElement: true
+        LSUIElement: false
         CFBundleIconFile: AppIcon
     settings:
       base:
@@ -34,6 +34,8 @@ targets:
         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
     dependencies:
       - target: CopyPathExtension
+    frameworks:
+      - sdk: FinderSync.framework
 
   CopyPathExtension:
     type: app-extension
