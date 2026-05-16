@@ -10,15 +10,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var pollTimer: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if FIFinderSyncController.isExtensionEnabled {
-            // Already wired up — nothing to do, exit silently so the user never sees a flash.
-            NSApp.setActivationPolicy(.accessory)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                NSApp.terminate(nil)
-            }
-            return
-        }
+        NSLog("CopyPath: launched, isExtensionEnabled=%d", FIFinderSyncController.isExtensionEnabled ? 1 : 0)
 
+        // Always show the onboarding window on launch. The polling loop will close
+        // it (after a 1.5s sample) if the extension is already enabled, so the
+        // "already set up" case still feels fast and disappears on its own.
         NSApp.setActivationPolicy(.regular)
         presentOnboardingWindow()
         NSApp.activate(ignoringOtherApps: true)
