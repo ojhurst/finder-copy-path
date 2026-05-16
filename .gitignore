@@ -1,12 +1,13 @@
-# Xcode
-build/
-DerivedData/
-*.xcworkspace
-xcuserdata/
-*.xcodeproj/xcuserdata/
-*.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 
+# Xcode
 # macOS
-.DS_Store
 *.swp
+*.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.xcodeproj/xcuserdata/
+*.xcworkspace
 *~
+.DS_Store
+DerivedData/
+build/
+dist/
+xcuserdata/
