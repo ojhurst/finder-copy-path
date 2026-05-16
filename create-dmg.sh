@@ -63,10 +63,10 @@ create-dmg \
     --volicon "$REPO/CopyPathHelper/AppIcon.icns" \
     --background "$REPO/dmg-resources/background.png" \
     --window-pos 200 120 \
-    --window-size 500 300 \
+    --window-size 540 380 \
     --icon-size 100 \
-    --icon "${APP_NAME}.app" 125 170 \
-    --app-drop-link 375 170 \
+    --icon "${APP_NAME}.app" 150 220 \
+    --app-drop-link 390 220 \
     --hide-extension "${APP_NAME}.app" \
     --codesign "$SIGNING_IDENTITY" \
     --no-internet-enable \
