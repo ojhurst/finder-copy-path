@@ -6,10 +6,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("CopyPath: applicationDidFinishLaunching fired")
+        trace("applicationDidFinishLaunching fired")
 
         NSApp.setActivationPolicy(.regular)
         presentOnboardingWindow()
         NSApp.activate(ignoringOtherApps: true)
+
+        trace("delegate finished setup")
+    }
+
+    private func trace(_ msg: String) {
+        let url = URL(fileURLWithPath: "/tmp/copypath-trace.log")
+        let line = "[\(ISO8601DateFormatter().string(from: Date()))] AD: \(msg)\n"
+        if let data = line.data(using: .utf8) {
+            if let fh = try? FileHandle(forWritingTo: url) {
+                try? fh.seekToEnd()
+                try? fh.write(contentsOf: data)
+                try? fh.close()
+            } else {
+                try? data.write(to: url)
+            }
+        }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
