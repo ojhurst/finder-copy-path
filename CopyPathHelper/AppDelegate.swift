@@ -43,25 +43,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         icon.imageScaling = .scaleProportionallyUpOrDown
         content.addSubview(icon)
 
-        let title = NSTextField(labelWithString: "Almost ready")
+        let title = NSTextField(labelWithString: "One more step")
         title.font = NSFont.systemFont(ofSize: 22, weight: .semibold)
         title.alignment = .center
         title.frame = NSRect(x: 0, y: 232, width: 480, height: 28)
         content.addSubview(title)
 
         let subtitle = NSTextField(wrappingLabelWithString:
-            "Enable the Copy Path extension in System Settings to finish setup.")
+            "Copy Path needs to be turned on before it shows up in your right-click menu.")
         subtitle.font = NSFont.systemFont(ofSize: 13)
         subtitle.alignment = .center
         subtitle.textColor = .secondaryLabelColor
-        subtitle.frame = NSRect(x: 60, y: 195, width: 360, height: 32)
+        subtitle.frame = NSRect(x: 50, y: 190, width: 380, height: 36)
         content.addSubview(subtitle)
 
         let instructions = NSTextField(wrappingLabelWithString:
-            "1.  Click the button below\n2.  Find Copy Path in the list\n3.  Toggle it on")
+            "1.  Click the button below to open System Settings.\n2.  Scroll to Extensions and click the ⓘ next to Copy Path.\n3.  Turn on the toggle, then close this window.")
         instructions.font = NSFont.systemFont(ofSize: 13)
         instructions.alignment = .left
-        instructions.frame = NSRect(x: 150, y: 110, width: 220, height: 70)
+        instructions.frame = NSRect(x: 60, y: 105, width: 360, height: 75)
         content.addSubview(instructions)
 
         let button = NSButton(title: "Open System Settings",
@@ -70,10 +70,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.bezelStyle = .rounded
         button.controlSize = .large
         button.keyEquivalent = "\r"
-        button.frame = NSRect(x: 140, y: 60, width: 200, height: 32)
+        button.frame = NSRect(x: 140, y: 55, width: 200, height: 32)
         content.addSubview(button)
 
-        let status = NSTextField(labelWithString: "After enabling, right-click any file to test.")
+        let status = NSTextField(labelWithString: "Once it's on, right-click any file in Finder to test.")
         status.font = NSFont.systemFont(ofSize: 12)
         status.alignment = .center
         status.textColor = .tertiaryLabelColor
