@@ -34,8 +34,6 @@ targets:
         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
     dependencies:
       - target: CopyPathExtension
-    frameworks:
-      - sdk: FinderSync.framework
 
   CopyPathExtension:
     type: app-extension

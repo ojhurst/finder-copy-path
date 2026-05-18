@@ -1,33 +1,31 @@
 import Cocoa
-import FinderSync
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var onboardingWindow: NSWindow?
-    private var statusLabel: NSTextField?
-    private var enableButton: NSButton?
-    private var pollTimer: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSLog("CopyPath: launched, isExtensionEnabled=%d", FIFinderSyncController.isExtensionEnabled ? 1 : 0)
+        NSLog("CopyPath: applicationDidFinishLaunching fired")
+        print("CopyPath: stdout marker — did finish launching")
 
-        // Always show the onboarding window on launch. The polling loop will close
-        // it (after a 1.5s sample) if the extension is already enabled, so the
-        // "already set up" case still feels fast and disappears on its own.
         NSApp.setActivationPolicy(.regular)
         presentOnboardingWindow()
         NSApp.activate(ignoringOtherApps: true)
-        startPolling()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
 
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+        true
+    }
+
     // MARK: - Onboarding window
 
     private func presentOnboardingWindow() {
+        NSLog("CopyPath: building onboarding window")
+
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 380),
             styleMask: [.titled, .closable],
@@ -39,7 +37,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.center()
 
         let content = NSView(frame: NSRect(x: 0, y: 0, width: 480, height: 380))
-        content.autoresizingMask = [.width, .height]
 
         let icon = NSImageView(frame: NSRect(x: 200, y: 270, width: 80, height: 80))
         icon.image = NSApp.applicationIconImage
@@ -75,43 +72,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.keyEquivalent = "\r"
         button.frame = NSRect(x: 140, y: 60, width: 200, height: 32)
         content.addSubview(button)
-        enableButton = button
 
-        let status = NSTextField(labelWithString: "Waiting for you to enable…")
+        let status = NSTextField(labelWithString: "After enabling, right-click any file to test.")
         status.font = NSFont.systemFont(ofSize: 12)
         status.alignment = .center
         status.textColor = .tertiaryLabelColor
         status.frame = NSRect(x: 0, y: 22, width: 480, height: 18)
         content.addSubview(status)
-        statusLabel = status
 
         window.contentView = content
         window.makeKeyAndOrderFront(nil)
         onboardingWindow = window
+
+        NSLog("CopyPath: onboarding window presented")
     }
 
     @objc private func openSettings() {
-        FIFinderSyncController.showExtensionManagementInterface()
-    }
-
-    // MARK: - Polling for enable
-
-    private func startPolling() {
-        pollTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if FIFinderSyncController.isExtensionEnabled {
-                self.pollTimer?.invalidate()
-                self.handleExtensionEnabled()
-            }
-        }
-    }
-
-    private func handleExtensionEnabled() {
-        statusLabel?.stringValue = "Enabled. You're all set — right-click any file."
-        statusLabel?.textColor = .systemGreen
-        enableButton?.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            self.onboardingWindow?.close()
-        }
+        // x-apple.systempreferences:com.apple.ExtensionsPreferences works on macOS 13+.
+        let url = URL(string: "x-apple.systempreferences:com.apple.ExtensionsPreferences")!
+        NSWorkspace.shared.open(url)
     }
 }
