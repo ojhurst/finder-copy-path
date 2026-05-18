@@ -34,6 +34,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
         window.title = "Copy Path"
         window.isReleasedWhenClosed = false
+        window.level = .floating          // stay visible above System Settings
+        window.collectionBehavior = [.canJoinAllSpaces, .moveToActiveSpace]
         window.center()
 
         let content = NSView(frame: NSRect(x: 0, y: 0, width: 480, height: 380))
@@ -58,7 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         content.addSubview(subtitle)
 
         let instructions = NSTextField(wrappingLabelWithString:
-            "1.  Click the button below to open System Settings.\n2.  Scroll to Extensions and click the ⓘ next to Copy Path.\n3.  Turn on the toggle, then close this window.")
+            "1.  Click the button below.\n2.  In Settings, scroll to Extensions, then click the ⓘ next to Copy Path.\n3.  Flip the toggle on, then close this window.")
         instructions.font = NSFont.systemFont(ofSize: 13)
         instructions.alignment = .left
         instructions.frame = NSRect(x: 60, y: 105, width: 360, height: 75)
@@ -88,8 +90,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func openSettings() {
-        // x-apple.systempreferences:com.apple.ExtensionsPreferences works on macOS 13+.
-        let url = URL(string: "x-apple.systempreferences:com.apple.ExtensionsPreferences")!
+        // macOS 15+/26: Extensions live inside the Login Items & Extensions pane.
+        // This URL lands on that pane with the Extensions section scrolled into view.
+        let url = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension?Extensions")!
         NSWorkspace.shared.open(url)
     }
 }
