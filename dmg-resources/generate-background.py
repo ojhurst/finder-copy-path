@@ -42,8 +42,14 @@ OUT_1X = os.path.join(os.path.dirname(__file__), "background.png")
 OUT_2X = os.path.join(os.path.dirname(__file__), "background@2x.png")
 
 
+SUPER = 4   # render at 4x internally and downsample for crisp antialiasing
+
+
 def render(scale: int, out_path: str) -> None:
-    W, H = W_LOG * scale, H_LOG * scale
+    # Draw at SUPER * scale internally; downsample at the end with Lanczos for
+    # buttery-smooth edges on every glyph and curve.
+    s = SUPER * scale
+    W, H = W_LOG * s, H_LOG * s
     img = Image.new("RGB", (W, H), BG_TOP)
     draw = ImageDraw.Draw(img)
 
@@ -62,12 +68,12 @@ def render(scale: int, out_path: str) -> None:
     system_font_path = "/System/Library/Fonts/HelveticaNeue.ttc"
 
     def draw_tracked_text(text: str, y_log: int, size_log: int, font_p: str, color, tracking_log: int = 4):
-        font = ImageFont.truetype(font_p, size_log * scale)
-        spacing = tracking_log * scale
+        font = ImageFont.truetype(font_p, size_log * s)
+        spacing = tracking_log * s
         widths = [draw.textbbox((0, 0), ch, font=font)[2] for ch in text]
         total = sum(widths) + spacing * max(0, len(text) - 1)
         x = (W - total) // 2
-        y = y_log * scale
+        y = y_log * s
         for ch, w in zip(text, widths):
             draw.text((x, y), ch, font=font, fill=color)
             x += w + spacing
@@ -80,14 +86,14 @@ def render(scale: int, out_path: str) -> None:
     draw_tracked_text("STEP 2   OPEN APPLICATIONS, DOUBLE-CLICK COPY PATH",
                       y_log=52, size_log=12, font_p=font_path, color=SUBTEXT, tracking_log=2)
 
-    # Scale arrow control points
-    start = (START_LOG[0] * scale, START_LOG[1] * scale)
-    end   = (END_LOG[0]   * scale, END_LOG[1]   * scale)
-    ctrl  = (CTRL_LOG[0]  * scale, CTRL_LOG[1]  * scale)
+    # Scale arrow control points (use supersampled s, not scale)
+    start = (START_LOG[0] * s, START_LOG[1] * s)
+    end   = (END_LOG[0]   * s, END_LOG[1]   * s)
+    ctrl  = (CTRL_LOG[0]  * s, CTRL_LOG[1]  * s)
 
     # Quadratic bezier curve, drawn with overlapping dabs for smoothness
-    stroke = 4 * scale
-    samples = 240
+    stroke = 4 * s
+    samples = 240 * SUPER  # more samples now that we're drawing larger
     prev = None
 
     def bezier(t):
@@ -105,7 +111,7 @@ def render(scale: int, out_path: str) -> None:
 
     # Arrowhead — tangent at t=1 of quadratic bezier is 2*(end - ctrl)
     angle = math.atan2(2 * (end[1] - ctrl[1]), 2 * (end[0] - ctrl[0]))
-    head_len = 16 * scale
+    head_len = 16 * s
     head_angle = math.radians(28)
     left = (
         end[0] - head_len * math.cos(angle - head_angle),
@@ -117,8 +123,11 @@ def render(scale: int, out_path: str) -> None:
     )
     draw.polygon([end, left, right], fill=ARROW)
 
-    img.save(out_path, "PNG", optimize=True)
-    print(f"Wrote {out_path}  ({W}x{H})")
+    # Downsample with Lanczos to the target size for crisp, antialiased output
+    target = (W_LOG * scale, H_LOG * scale)
+    final = img.resize(target, Image.LANCZOS)
+    final.save(out_path, "PNG", optimize=True)
+    print(f"Wrote {out_path}  ({target[0]}x{target[1]}, rendered at {W}x{H} and downsampled)")
 
 
 render(1, OUT_1X)
