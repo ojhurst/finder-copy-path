@@ -25,6 +25,7 @@ targets:
       properties:
         LSUIElement: false
         CFBundleIconFile: AppIcon
+        NSPrincipalClass: NSApplication
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ojhurst.CopyPathHelper
