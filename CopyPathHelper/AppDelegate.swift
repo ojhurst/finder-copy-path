@@ -55,22 +55,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         content.addSubview(subtitle)
 
         // Caption above the screenshot
-        let caption = NSTextField(labelWithString: "Look for this entry in System Settings:")
+        let caption = NSTextField(labelWithString: "Find this in Settings, then flip the toggle on:")
         caption.font = NSFont.systemFont(ofSize: 11, weight: .medium)
         caption.alignment = .center
         caption.textColor = .tertiaryLabelColor
-        caption.frame = NSRect(x: 20, y: 352, width: W - 40, height: 16)
+        caption.frame = NSRect(x: 20, y: 358, width: W - 40, height: 16)
         content.addSubview(caption)
 
-        // Screenshot — defensive load, skip silently if anything is off.
+        // Screenshot — anchor the TOP just below the caption, height scales to aspect.
+        let imageTop: CGFloat = 350
         if let path = Bundle.main.path(forResource: "onboarding-target", ofType: "png"),
            let image = NSImage(contentsOfFile: path),
            image.size.width > 0,
            image.size.height > 0 {
             Trace.write("delegate: loaded onboarding image \(image.size.width)x\(image.size.height)")
-            let imgW: CGFloat = 400
+            let imgW: CGFloat = 420
             let imgH = (imgW * image.size.height / image.size.width).rounded()
-            let imgView = NSImageView(frame: NSRect(x: (W - imgW) / 2, y: 232, width: imgW, height: imgH))
+            let imgView = NSImageView(frame: NSRect(x: (W - imgW) / 2, y: imageTop - imgH, width: imgW, height: imgH))
             imgView.image = image
             imgView.imageScaling = .scaleProportionallyDown
             imgView.imageAlignment = .alignCenter
@@ -79,12 +80,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Trace.write("delegate: onboarding image missing or invalid — skipped")
         }
 
-        // Instructions
+        // Instructions — explanatory, since the image already shows what to flip
         let instructions = NSTextField(wrappingLabelWithString:
-            "1.  Click the ⓘ icon next to that row\n2.  Flip the toggle on\n3.  Close this window")
+            "Click below, find the row above, click its ⓘ icon, then flip the toggle on.")
         instructions.font = NSFont.systemFont(ofSize: 13)
-        instructions.alignment = .left
-        instructions.frame = NSRect(x: 130, y: 130, width: 220, height: 65)
+        instructions.alignment = .center
+        instructions.textColor = .secondaryLabelColor
+        instructions.frame = NSRect(x: 40, y: 130, width: W - 80, height: 40)
         content.addSubview(instructions)
 
         // Action button
