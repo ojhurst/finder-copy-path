@@ -54,20 +54,31 @@ def render(scale: int, out_path: str) -> None:
         b = int(BG_TOP[2] * (1 - t) + BG_BOTTOM[2] * t)
         draw.line([(0, y), (W, y)], fill=(r, g, b))
 
-    # "DRAG TO INSTALL" text — centered, slight letter spacing
-    text = "DRAG TO INSTALL"
+    # Heading + two-step instructions
     font_path = "/System/Library/Fonts/Supplemental/Futura.ttc"
     if not os.path.exists(font_path):
         font_path = "/System/Library/Fonts/HelveticaNeue.ttc"
-    font = ImageFont.truetype(font_path, 22 * scale)
-    spacing_px = 4 * scale
-    total_w = sum(draw.textbbox((0, 0), ch, font=font)[2] for ch in text) + spacing_px * (len(text) - 1)
-    x = (W - total_w) // 2
-    text_y = 38 * scale
-    for ch in text:
-        draw.text((x, text_y), ch, font=font, fill=TEXT)
-        ch_w = draw.textbbox((0, 0), ch, font=font)[2]
-        x += ch_w + spacing_px
+    system_font_path = "/System/Library/Fonts/HelveticaNeue.ttc"
+
+    def draw_tracked_text(text: str, y_log: int, size_log: int, font_p: str, color, tracking_log: int = 4):
+        font = ImageFont.truetype(font_p, size_log * scale)
+        spacing = tracking_log * scale
+        widths = [draw.textbbox((0, 0), ch, font=font)[2] for ch in text]
+        total = sum(widths) + spacing * max(0, len(text) - 1)
+        x = (W - total) // 2
+        y = y_log * scale
+        for ch, w in zip(text, widths):
+            draw.text((x, y), ch, font=font, fill=color)
+            x += w + spacing
+
+    # Top heading — same Futura "DRAG TO INSTALL" as before
+    draw_tracked_text("DRAG TO INSTALL", y_log=38, size_log=22, font_p=font_path, color=TEXT, tracking_log=4)
+
+    # Footer — step 2 instruction in plain system font for readability
+    draw_tracked_text(
+        "Then open the Applications folder and double-click Copy Path.",
+        y_log=325, size_log=12, font_p=system_font_path, color=TEXT, tracking_log=0,
+    )
 
     # Scale arrow control points
     start = (START_LOG[0] * scale, START_LOG[1] * scale)
