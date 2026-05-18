@@ -50,11 +50,30 @@ mkdir -p "$STAGING" "$(dirname "$DMG_OUT")"
 cp -R "$BUILT_APP" "$STAGING/${APP_NAME}.app"
 
 # --- 3. Re-sign after rename ---------------------------------------------
-echo ">>> Re-signing renamed bundle"
-codesign --force --deep --options runtime --timestamp \
+# IMPORTANT: do NOT use --deep here. --deep re-signs nested bundles without
+# their entitlements, leaving the .appex un-sandboxed and silently rejected
+# by pluginkit. Sign each nested bundle explicitly with its entitlements file,
+# inside-out: extension first, then host.
+echo ">>> Re-signing inner CopyPathExtension.appex with its entitlements"
+codesign --force --options runtime --timestamp \
+    --entitlements "$REPO/CopyPathExtension/CopyPathExtension.entitlements" \
+    --sign "$SIGNING_IDENTITY" \
+    "$STAGING/${APP_NAME}.app/Contents/PlugIns/CopyPathExtension.appex"
+
+echo ">>> Re-signing outer ${APP_NAME}.app with its entitlements"
+codesign --force --options runtime --timestamp \
+    --entitlements "$REPO/CopyPathHelper/CopyPathHelper.entitlements" \
     --sign "$SIGNING_IDENTITY" \
     "$STAGING/${APP_NAME}.app"
+
 codesign --verify --deep --strict --verbose=2 "$STAGING/${APP_NAME}.app"
+
+echo ">>> Confirm extension has sandbox entitlement"
+codesign -d --entitlements - "$STAGING/${APP_NAME}.app/Contents/PlugIns/CopyPathExtension.appex" 2>&1 | \
+    grep -q "com.apple.security.app-sandbox" || {
+        echo "ERROR: extension is missing sandbox entitlement — aborting"
+        exit 1
+    }
 
 # --- 4. Build the styled DMG ---------------------------------------------
 echo ">>> Building styled DMG"
