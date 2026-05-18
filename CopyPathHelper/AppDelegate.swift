@@ -54,28 +54,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         subtitle.frame = NSRect(x: 20, y: 380, width: W - 40, height: 18)
         content.addSubview(subtitle)
 
-        // Caption above the screenshot
-        let caption = NSTextField(labelWithString: "Find this in Settings, then flip the toggle on:")
-        caption.font = NSFont.systemFont(ofSize: 11, weight: .medium)
-        caption.alignment = .center
-        caption.textColor = .tertiaryLabelColor
-        caption.frame = NSRect(x: 20, y: 358, width: W - 40, height: 16)
-        content.addSubview(caption)
-
-        // Screenshot — anchor the TOP just below the caption, height scales to aspect.
-        let imageTop: CGFloat = 350
+        // Screenshot — wrapped in a labeled "example card" so it reads as
+        // documentation rather than an interactive control.
+        let imageTop: CGFloat = 360
         if let path = Bundle.main.path(forResource: "onboarding-target", ofType: "png"),
            let image = NSImage(contentsOfFile: path),
            image.size.width > 0,
            image.size.height > 0 {
             Trace.write("delegate: loaded onboarding image \(image.size.width)x\(image.size.height)")
+
             let imgW: CGFloat = 420
             let imgH = (imgW * image.size.height / image.size.width).rounded()
-            let imgView = NSImageView(frame: NSRect(x: (W - imgW) / 2, y: imageTop - imgH, width: imgW, height: imgH))
+
+            // Card label — sits above the image, makes it clear this is an example
+            let labelH: CGFloat = 18
+            let cardPad: CGFloat = 10
+            let cardW = imgW + cardPad * 2
+            let cardH = imgH + labelH + cardPad * 2
+            let cardX = (W - cardW) / 2
+            let cardY = imageTop - cardH
+
+            let card = NSView(frame: NSRect(x: cardX, y: cardY, width: cardW, height: cardH))
+            card.wantsLayer = true
+            card.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+            card.layer?.borderColor = NSColor.separatorColor.cgColor
+            card.layer?.borderWidth = 1
+            card.layer?.cornerRadius = 8
+
+            let label = NSTextField(labelWithString: "Example — find this row in System Settings")
+            label.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
+            label.alignment = .center
+            label.textColor = .secondaryLabelColor
+            label.frame = NSRect(x: cardPad, y: cardH - cardPad - labelH, width: imgW, height: labelH)
+            card.addSubview(label)
+
+            let imgView = NSImageView(frame: NSRect(x: cardPad, y: cardPad, width: imgW, height: imgH))
             imgView.image = image
             imgView.imageScaling = .scaleProportionallyDown
             imgView.imageAlignment = .alignCenter
-            content.addSubview(imgView)
+            imgView.alphaValue = 0.92  // subtle dim to feel like documentation
+            card.addSubview(imgView)
+
+            content.addSubview(card)
         } else {
             Trace.write("delegate: onboarding image missing or invalid — skipped")
         }
