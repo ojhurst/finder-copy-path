@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func presentOnboardingWindow() {
         let W: CGFloat = 480
-        let H: CGFloat = 500
+        let H: CGFloat = 460
 
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: W, height: H),
@@ -38,19 +38,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let content = NSView(frame: NSRect(x: 0, y: 0, width: W, height: H))
 
+        // Title
         let title = NSTextField(labelWithString: "One more step")
         title.font = NSFont.systemFont(ofSize: 22, weight: .semibold)
         title.alignment = .center
-        title.frame = NSRect(x: 0, y: 450, width: W, height: 28)
+        title.frame = NSRect(x: 0, y: 410, width: W, height: 28)
         content.addSubview(title)
 
-        let subtitle = NSTextField(wrappingLabelWithString:
-            "Copy Path is installed but not turned on yet. Click below to open System Settings, then find this entry:")
+        // Subtitle — shorter so it fits one line at this width
+        let subtitle = NSTextField(labelWithString:
+            "Turn on the Copy Path extension to finish setup.")
         subtitle.font = NSFont.systemFont(ofSize: 13)
         subtitle.alignment = .center
         subtitle.textColor = .secondaryLabelColor
-        subtitle.frame = NSRect(x: 40, y: 395, width: W - 80, height: 50)
+        subtitle.frame = NSRect(x: 20, y: 380, width: W - 40, height: 18)
         content.addSubview(subtitle)
+
+        // Caption above the screenshot
+        let caption = NSTextField(labelWithString: "Look for this entry in System Settings:")
+        caption.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        caption.alignment = .center
+        caption.textColor = .tertiaryLabelColor
+        caption.frame = NSRect(x: 20, y: 352, width: W - 40, height: 16)
+        content.addSubview(caption)
 
         // Screenshot — defensive load, skip silently if anything is off.
         if let path = Bundle.main.path(forResource: "onboarding-target", ofType: "png"),
@@ -60,7 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Trace.write("delegate: loaded onboarding image \(image.size.width)x\(image.size.height)")
             let imgW: CGFloat = 400
             let imgH = (imgW * image.size.height / image.size.width).rounded()
-            let imgView = NSImageView(frame: NSRect(x: (W - imgW) / 2, y: 305, width: imgW, height: imgH))
+            let imgView = NSImageView(frame: NSRect(x: (W - imgW) / 2, y: 232, width: imgW, height: imgH))
             imgView.image = image
             imgView.imageScaling = .scaleProportionallyDown
             imgView.imageAlignment = .alignCenter
@@ -69,27 +79,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Trace.write("delegate: onboarding image missing or invalid — skipped")
         }
 
+        // Instructions
         let instructions = NSTextField(wrappingLabelWithString:
             "1.  Click the ⓘ icon next to that row\n2.  Flip the toggle on\n3.  Close this window")
         instructions.font = NSFont.systemFont(ofSize: 13)
         instructions.alignment = .left
-        instructions.frame = NSRect(x: 130, y: 140, width: 220, height: 65)
+        instructions.frame = NSRect(x: 130, y: 130, width: 220, height: 65)
         content.addSubview(instructions)
 
+        // Action button
         let button = NSButton(title: "Open System Settings",
                               target: self,
                               action: #selector(openSettings))
         button.bezelStyle = .rounded
         button.controlSize = .large
         button.keyEquivalent = "\r"
-        button.frame = NSRect(x: (W - 200) / 2, y: 85, width: 200, height: 32)
+        button.frame = NSRect(x: (W - 200) / 2, y: 75, width: 200, height: 32)
         content.addSubview(button)
 
+        // Footer
         let status = NSTextField(labelWithString: "Once it's on, right-click any file in Finder to test.")
         status.font = NSFont.systemFont(ofSize: 12)
         status.alignment = .center
         status.textColor = .tertiaryLabelColor
-        status.frame = NSRect(x: 0, y: 45, width: W, height: 18)
+        status.frame = NSRect(x: 0, y: 38, width: W, height: 18)
         content.addSubview(status)
 
         window.contentView = content
