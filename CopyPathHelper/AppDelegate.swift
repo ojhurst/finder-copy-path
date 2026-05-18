@@ -105,8 +105,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func openSettings() {
-        // macOS 15+/26: Extensions live inside the Login Items & Extensions pane.
-        let url = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension?Extensions")!
-        NSWorkspace.shared.open(url)
+        // Try the URL we know works on macOS 13–26, then fall back to opening
+        // System Settings at its top level if the specific pane is unavailable.
+        let candidates = [
+            "x-apple.systempreferences:com.apple.ExtensionsPreferences",
+            "x-apple.systempreferences:",
+        ]
+        for raw in candidates {
+            if let url = URL(string: raw), NSWorkspace.shared.open(url) {
+                return
+            }
+        }
     }
 }
