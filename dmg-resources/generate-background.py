@@ -36,6 +36,7 @@ BG_TOP    = (235, 244, 252)
 BG_BOTTOM = (197, 220, 240)
 ARROW     = (110, 145, 200)
 TEXT      = (130, 155, 195)
+SUBTEXT   = (60, 80, 120)   # darker than TEXT for higher contrast on the step-2 line
 
 OUT_1X = os.path.join(os.path.dirname(__file__), "background.png")
 OUT_2X = os.path.join(os.path.dirname(__file__), "background@2x.png")
@@ -71,14 +72,13 @@ def render(scale: int, out_path: str) -> None:
             draw.text((x, y), ch, font=font, fill=color)
             x += w + spacing
 
-    # Top heading — same Futura "DRAG TO INSTALL" as before
-    draw_tracked_text("DRAG TO INSTALL", y_log=38, size_log=22, font_p=font_path, color=TEXT, tracking_log=4)
+    # Step 1: heading above the arrow
+    draw_tracked_text("STEP 1   DRAG TO APPLICATIONS",
+                      y_log=24, size_log=16, font_p=font_path, color=TEXT, tracking_log=3)
 
-    # Footer — step 2 instruction in plain system font for readability
-    draw_tracked_text(
-        "Then open the Applications folder and double-click Copy Path.",
-        y_log=325, size_log=12, font_p=system_font_path, color=TEXT, tracking_log=0,
-    )
+    # Step 2: prominent line just below — high contrast so it's read first
+    draw_tracked_text("STEP 2   OPEN APPLICATIONS, DOUBLE-CLICK COPY PATH",
+                      y_log=52, size_log=12, font_p=font_path, color=SUBTEXT, tracking_log=2)
 
     # Scale arrow control points
     start = (START_LOG[0] * scale, START_LOG[1] * scale)
