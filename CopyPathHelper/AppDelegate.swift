@@ -1,19 +1,9 @@
 import Cocoa
 
-@main
+@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var onboardingWindow: NSWindow?
-
-    static func main() {
-        let trace = "[\(ISO8601DateFormatter().string(from: Date()))] static main entered\n"
-        try? trace.data(using: .utf8)?.write(to: URL(fileURLWithPath: "/tmp/copypath-trace.log"))
-
-        let app = NSApplication.shared
-        let delegate = AppDelegate()
-        app.delegate = delegate
-        app.run()
-    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("CopyPath: applicationDidFinishLaunching fired")
