@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DAB69D4069761E2444611DB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05709F55554DF38CB885277 /* main.swift */; };
 		258CF4072CCCD1AA1AFB6B9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A602EB28B578F74412CD3902 /* AppDelegate.swift */; };
+		8859B5D5F7827C389A974CCC /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0D36D548014ECED1E4BE25B9 /* AppIcon.icns */; };
 		9546C8F2767897ABA65DB180 /* CopyPathExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F086682558DFDADCC061FEBA /* CopyPathExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		ACA51A48C4E3E9D3C2EEF018 /* onboarding-target.png in Resources */ = {isa = PBXBuildFile; fileRef = E46B00981D061146C14D813E /* onboarding-target.png */; };
 		D751C20FD6B2F337FF5E7DB4 /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05765963C723D1F1662F77F /* FinderSync.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,12 +40,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D36D548014ECED1E4BE25B9 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		0F9974290A2C5977BC191ECC /* CopyPathHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyPathHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C65C2677F360F5E41AF463A /* CopyPathExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPathExtension.entitlements; sourceTree = "<group>"; };
 		4FB00B65401129301BA22164 /* CopyPathHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CopyPathHelper.entitlements; sourceTree = "<group>"; };
 		8CFB3D28212C0DF7048D0465 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A602EB28B578F74412CD3902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE1E68620B67937F862FB05D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B05709F55554DF38CB885277 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		E46B00981D061146C14D813E /* onboarding-target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding-target.png"; sourceTree = "<group>"; };
 		F05765963C723D1F1662F77F /* FinderSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSync.swift; sourceTree = "<group>"; };
 		F086682558DFDADCC061FEBA /* CopyPathExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CopyPathExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,8 +67,11 @@
 			isa = PBXGroup;
 			children = (
 				A602EB28B578F74412CD3902 /* AppDelegate.swift */,
+				0D36D548014ECED1E4BE25B9 /* AppIcon.icns */,
 				4FB00B65401129301BA22164 /* CopyPathHelper.entitlements */,
 				8CFB3D28212C0DF7048D0465 /* Info.plist */,
+				B05709F55554DF38CB885277 /* main.swift */,
+				F11B64BB99F1AD362B86F131 /* Resources */,
 			);
 			path = CopyPathHelper;
 			sourceTree = "<group>";
@@ -86,6 +95,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		F11B64BB99F1AD362B86F131 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E46B00981D061146C14D813E /* onboarding-target.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -94,6 +111,7 @@
 			buildConfigurationList = FE2A5BBBB9612E2348EB81B9 /* Build configuration list for PBXNativeTarget "CopyPathHelper" */;
 			buildPhases = (
 				58A980698EC00F020CB4FD04 /* Sources */,
+				3BB94FE45BB86764F1E3A903 /* Resources */,
 				57E1165A48A1EEB51BE4FBEA /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -135,11 +153,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					4DF823B2A15D652E2C39F05C = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = WG8568VB25;
 						ProvisioningStyle = Manual;
 					};
 					6DE70601C2282ECA4A3B402F = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = WG8568VB25;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -164,12 +182,25 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		3BB94FE45BB86764F1E3A903 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8859B5D5F7827C389A974CCC /* AppIcon.icns in Resources */,
+				ACA51A48C4E3E9D3C2EEF018 /* onboarding-target.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		58A980698EC00F020CB4FD04 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				258CF4072CCCD1AA1AFB6B9D /* AppDelegate.swift in Sources */,
+				0DAB69D4069761E2444611DB /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,11 +309,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WG8568VB25;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -297,6 +329,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -339,11 +372,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WG8568VB25;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -364,6 +398,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
