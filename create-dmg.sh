@@ -23,9 +23,9 @@ security find-identity -v -p codesigning | grep -q "$SIGNING_IDENTITY" || {
     echo "Developer ID signing identity not in keychain. Run this on the MBP."
     exit 1
 }
-: "${APPLE_DEVELOPER_EMAIL:?APPLE_DEVELOPER_EMAIL must be set (see secrets.json)}"
-: "${APPLE_TEAM_ID:?APPLE_TEAM_ID must be set (see secrets.json)}"
-: "${APPLE_NOTARY_PASSWORD:?APPLE_NOTARY_PASSWORD must be set (see secrets.json)}"
+APPLE_DEVELOPER_EMAIL=$("$HOME/apps/cc/bin/aws-secret" /apple/developer_email) || { echo "Failed to fetch APPLE_DEVELOPER_EMAIL from Parameter Store" >&2; exit 1; }
+APPLE_TEAM_ID=$("$HOME/apps/cc/bin/aws-secret" /apple/team_id) || { echo "Failed to fetch APPLE_TEAM_ID from Parameter Store" >&2; exit 1; }
+APPLE_NOTARY_PASSWORD=$("$HOME/apps/cc/bin/aws-secret" /apple/notary_password) || { echo "Failed to fetch APPLE_NOTARY_PASSWORD from Parameter Store" >&2; exit 1; }
 
 # --- 1. Build release -----------------------------------------------------
 echo ">>> Generating Xcode project"
